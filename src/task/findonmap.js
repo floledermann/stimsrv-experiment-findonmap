@@ -21,7 +21,6 @@ const html = `
   color: #444444;
   padding-top: 40vh;
   text-align: center;
-  opacity: 0.5;
 }
 
 .dialog {
@@ -37,7 +36,7 @@ const html = `
 }
 </style>
 <div class="modal"><span class="label"></span><button>Start</button></div>
-<div class="dialog"><span class="label"></span><button class="found">I found it!</button><button class="notfound">I cannot find it!</button></div>
+<div class="dialog"><span class="label"></span><button class="found">I found it</button><button class="notfound">I cannot find it</button></div>
 `;
 
 let findOnMapRenderer = function(config) {
@@ -51,29 +50,18 @@ let findOnMapRenderer = function(config) {
   let dialogLabel = null;
   let foundItButton = null;
   
-  function appendChild(parent, tagName, className, style) {
-    let el = parent.ownerDocument.createElement(tagName);
-    el.className = className;
-    Object.assign(el.style, style);
-    parent.appendChild(el);
-    return el;
-  }
-  
-  let stimsrv = null;
   let currentTarget = null;
   // Leaflet reference
   let L = null;
-  let map = null;
   
   return {
     
-    initialize: function(parent, _stimsrv, context) {
+    initialize: function(parent, stimsrv, context) {
       
       if (!L) L = require("leaflet");
-      stimsrv = _stimsrv;
       
-      slippyMap.initialize(parent, _stimsrv, context);     
-      map = slippyMap.getMap();
+      slippyMap.initialize(parent, stimsrv, context);     
+      let map = slippyMap.getMap();
       
       parent.insertAdjacentHTML('beforeend', html); 
       
@@ -86,7 +74,6 @@ let findOnMapRenderer = function(config) {
       modal.querySelector("button").addEventListener("click", function(event) {
         modal.style.display = "none";
         dialog.style.display = "block";
-        //event.stopPropagation();
       });               
             
       foundItButton = dialog.querySelector("button.found");
@@ -98,13 +85,13 @@ let findOnMapRenderer = function(config) {
         
         function mapClick(event) {
           map.off("click", mapClick);
-          var b = currentTarget.bounds;
-          var targetArea = L.latLngBounds([b[1],b[0]],[b[3],b[2]]);
+          let b = currentTarget.bounds;
+          let targetArea = L.latLngBounds([b[1],b[0]],[b[3],b[2]]);
           if (targetArea.contains(event.latlng)) {
-            stimsrv.response({success:true});
+            stimsrv.response({success:true, clickCoords: event.latlng});
           }
           else {
-            stimsrv.response({success:false});
+            stimsrv.response({success:false, clickCoords: event.latlng});
           }
         }
       });
@@ -112,7 +99,6 @@ let findOnMapRenderer = function(config) {
       dialog.querySelector("button.notfound").addEventListener("click", function(event) {
         stimsrv.response({givenUp: true, success:false});
         dialog.style.display = "none";
-        //event.stopPropagation();
       });               
       
     },
@@ -123,9 +109,9 @@ let findOnMapRenderer = function(config) {
       currentTarget = condition.target;
       
       foundItButton.style.display = "inline";
-      map.getContainer().style.cursor = null;
+      slippyMap.getMap().getContainer().style.cursor = null;
 
-      modalLabel.innerHTML = "Please find: <strong>" + condition.target.name + "</strong>";
+      modalLabel.innerHTML = "Please find: <strong>" + condition.target.name + "</strong> in " + condition.target.townName;
       modal.style.display = "block";
 
       dialogLabel.innerHTML = "Please find: <strong>" + condition.target.name + "</strong>";
@@ -150,8 +136,6 @@ try { dirname = __dirname; } catch(e) {}
 function findOnMapTask(config) {
   
   config = Object.assign({}, DEFAULTS, config);
-  // do we want to use separate parameters object?
-  //config.parameters = Object.assign({}, DEFAULTS.parameters, config.parameters);
   
   if (!(config.tiles?.tileURL)) {
     console.error("Slippymap task: config.tiles.tileURL must be specified!");
