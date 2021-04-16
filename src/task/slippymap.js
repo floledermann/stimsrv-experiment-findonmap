@@ -69,8 +69,10 @@ let slippyMapRenderer = function(config) {
     },
     render: function(condition) {
       if (condition.initialZoom) map.setZoom(condition.initialZoom);
-      if (condition.initialPosition) map.setView(condition.initialPosition);     
-    }
+      if (condition.initialPosition) map.panTo(condition.initialPosition);   
+      console.log("Centering map on " + condition.initialPosition);
+    },
+    getMap: () => map
   }
 }
 

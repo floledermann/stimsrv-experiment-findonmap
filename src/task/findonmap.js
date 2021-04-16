@@ -7,19 +7,49 @@ const resource = require("stimsrv/util/resource");
 
 const slippyMapRenderer = require("./slippymap.js").renderer;
 
+const html = `
+<style>
+.modal {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 500;
+  background-color: rgba(255,255,255,1.0);
+  color: #444444;
+  padding-top: 40vh;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.dialog {
+  display: none;
+  position: absolute;
+  top: 20px;
+  z-index: 500;
+  background-color: rgba(255,255,255,0.9);
+  padding: 3px 90px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  color: #444444;
+}
+</style>
+<div class="modal"><span class="label"></span><button>Start</button></div>
+<div class="dialog"><span class="label"></span><button class="found">I found it!</button><button class="notfound">I cannot find it!</button></div>
+`;
+
 let findOnMapRenderer = function(config) {
   
   let slippyMap = slippyMapRenderer(config);
   
   let modal = null;
-  let dialog = null;
-  
   let modalLabel = null;
-  let modalButton = null;
   
+  let dialog = null;
   let dialogLabel = null;
   let foundItButton = null;
-  let cannotFindItButton = null;
   
   function appendChild(parent, tagName, className, style) {
     let el = parent.ownerDocument.createElement(tagName);
@@ -30,62 +60,59 @@ let findOnMapRenderer = function(config) {
   }
   
   let stimsrv = null;
+  let currentTarget = null;
+  // Leaflet reference
+  let L = null;
+  let map = null;
   
   return {
     
     initialize: function(parent, _stimsrv, context) {
       
+      if (!L) L = require("leaflet");
       stimsrv = _stimsrv;
       
-      slippyMap.initialize(parent, _stimsrv, context);
+      slippyMap.initialize(parent, _stimsrv, context);     
+      map = slippyMap.getMap();
       
-      let document = parent.ownerDocument;
+      parent.insertAdjacentHTML('beforeend', html); 
       
-      modal = appendChild(parent, "div", "modal", {
-        display: "none",
-        width: "100%",
-        height: "100%",
-        position: "absolute",
-        zIndex: "500",
-        backgroundColor: "rgba(255,255,255,1.0)",
-        color: "#444444",
-        paddingTop: "40vh",
-        textAlign: "center",
-      });
+      modal = parent.querySelector(".modal");
+      modalLabel = modal.querySelector(".label");
       
-      modalLabel = appendChild(modal, "span", "label");
-      modalButton = appendChild(modal, "button");
-      modalButton.innerHTML = "Start";
-      modalButton.addEventListener("click", function(event) {
-        //experiment.logEvent({type: 'button_click'});
+      dialog = parent.querySelector(".dialog");
+      dialogLabel = dialog.querySelector(".label");
+      
+      modal.querySelector("button").addEventListener("click", function(event) {
         modal.style.display = "none";
         dialog.style.display = "block";
-        event.stopPropagation();
+        //event.stopPropagation();
       });               
             
-      dialog = appendChild(parent, "div", "dialog", {
-        display: "none",
-        position: "absolute",
-        top: "20px",
-        zIndex: "500",
-        backgroundColor: "rgba(255,255,255,0.9)",
-        padding: "3px 90px",
-        border: "1px solid rgba(0,0,0,0.15)",
-        borderRadius: "10px",
-        color: "#444444",
+      foundItButton = dialog.querySelector("button.found");
+      foundItButton.addEventListener("click", function(event) {
+        dialogLabel.innerHTML = "Please click on the map where you found " + currentTarget.name + ".";
+        foundItButton.style.display = "none";
+        map.getContainer().style.cursor = "pointer";
+        map.on("click", mapClick);
+        
+        function mapClick(event) {
+          map.off("click", mapClick);
+          var b = currentTarget.bounds;
+          var targetArea = L.latLngBounds([b[1],b[0]],[b[3],b[2]]);
+          if (targetArea.contains(event.latlng)) {
+            stimsrv.response({success:true});
+          }
+          else {
+            stimsrv.response({success:false});
+          }
+        }
       });
-      
-      dialogLabel = appendChild(dialog, "span", "label");
-      
-      foundItButton = appendChild(dialog, "button");
-      foundItButton.innerHTML = "I found it!";
-      
-      cannotFindItButton = appendChild(dialog, "button");
-      cannotFindItButton.innerHTML = "I cannot find it!";
-      cannotFindItButton.addEventListener("click", function(event) {
-        stimsrv.response({givenUp: true});
+       
+      dialog.querySelector("button.notfound").addEventListener("click", function(event) {
+        stimsrv.response({givenUp: true, success:false});
         dialog.style.display = "none";
-        event.stopPropagation();
+        //event.stopPropagation();
       });               
       
     },
@@ -93,6 +120,11 @@ let findOnMapRenderer = function(config) {
       
       slippyMap.render(condition);
       
+      currentTarget = condition.target;
+      
+      foundItButton.style.display = "inline";
+      map.getContainer().style.cursor = null;
+
       modalLabel.innerHTML = "Please find: <strong>" + condition.target.name + "</strong>";
       modal.style.display = "block";
 
