@@ -1,0 +1,19 @@
+{
+  "name": "experiment-1",
+  "version": "0.0.1",
+  "author": "Florian Ledermann <florian.ledermann@tuwien.ac.at>",
+  "license": "UNLICENSED",
+  "description": "",
+  "main": "experiment.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "another-dimension": "file:../another-dimension",
+    "leaflet": "1.7.1",
+    "stimsrv": "file:../stimsrv"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.7"
+  }
+}
