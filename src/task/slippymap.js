@@ -61,6 +61,8 @@ let slippyMapRenderer = function(config) {
         map.setZoom(config.initialZoom);
       }
       
+      // Leaflet is really sensitive to order of zoom/pan commands
+      // to test see http://jsfiddle.net/sx5gtwa7/3/
       let initialPosition = valOrFunc(config.initialPosition, context);
       if (initialPosition && Array.isArray(initialPosition)) {
         map.setView(config.initialPosition);

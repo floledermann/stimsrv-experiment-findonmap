@@ -40,49 +40,51 @@ const html = `
 `;
 
 let findOnMapRenderer = function(config) {
-  
+
   let slippyMap = slippyMapRenderer(config);
-  
+
   let modal = null;
   let modalLabel = null;
-  
+
   let dialog = null;
   let dialogLabel = null;
   let foundItButton = null;
-  
+
   let currentTarget = null;
   // Leaflet reference
   let L = null;
-  
+
   return {
-    
+
     initialize: function(parent, stimsrv, context) {
-      
+
       if (!L) L = require("leaflet");
-      
-      slippyMap.initialize(parent, stimsrv, context);     
+
+      slippyMap.initialize(parent, stimsrv, context);
       let map = slippyMap.getMap();
-      
-      parent.insertAdjacentHTML('beforeend', html); 
-      
+
+      parent.insertAdjacentHTML('beforeend', html);
+
       modal = parent.querySelector(".modal");
       modalLabel = modal.querySelector(".label");
-      
+
       dialog = parent.querySelector(".dialog");
       dialogLabel = dialog.querySelector(".label");
-      
+
       modal.querySelector("button").addEventListener("click", function(event) {
         modal.style.display = "none";
         dialog.style.display = "block";
-      });               
-            
+      });
+
       foundItButton = dialog.querySelector("button.found");
       foundItButton.addEventListener("click", function(event) {
+
         dialogLabel.innerHTML = "Please click on the map where you found " + currentTarget.name + ".";
         foundItButton.style.display = "none";
         map.getContainer().style.cursor = "pointer";
+
         map.on("click", mapClick);
-        
+
         function mapClick(event) {
           map.off("click", mapClick);
           let b = currentTarget.bounds;
@@ -95,19 +97,19 @@ let findOnMapRenderer = function(config) {
           }
         }
       });
-       
+
       dialog.querySelector("button.notfound").addEventListener("click", function(event) {
         stimsrv.response({givenUp: true, success:false});
         dialog.style.display = "none";
-      });               
-      
+      });
+
     },
     render: function(condition) {
-      
+
       slippyMap.render(condition);
-      
+
       currentTarget = condition.target;
-      
+
       foundItButton.style.display = "inline";
       slippyMap.getMap().getContainer().style.cursor = null;
 
@@ -118,7 +120,7 @@ let findOnMapRenderer = function(config) {
       dialog.style.display = "none";
 
     }
-  }    
+  }
 }
 
 const DEFAULTS = {
@@ -134,17 +136,17 @@ let dirname = "";
 try { dirname = __dirname; } catch(e) {}
 
 function findOnMapTask(config) {
-  
+
   config = Object.assign({}, DEFAULTS, config);
-  
+
   if (!(config.tiles?.tileURL)) {
     console.error("Slippymap task: config.tiles.tileURL must be specified!");
   }
 
   let renderer = findOnMapRenderer(config);
-  
+
   let monitorMap = slippyMapRenderer(Object.assign({},config,{interaction: false}));
-    
+
   return {
     name: "slippymap",
     description: "Interactive (slippy) map",
