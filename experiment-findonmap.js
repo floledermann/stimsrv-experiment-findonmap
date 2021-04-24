@@ -5,8 +5,6 @@ const sequence = require("stimsrv/controller/sequence");
 
 const findonmap = require("./src/task/findonmap.js");   
 
-const messages = require("./messages.js");
-
 const locations = require("./target-locations.js");
 
 const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
