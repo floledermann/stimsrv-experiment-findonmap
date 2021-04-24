@@ -27,7 +27,7 @@ let slippyMapRenderer = function(config) {
       
       if (!L) L = require("leaflet");
       
-      parent.innerHTML = `<link rel="stylesheet" href="/static/task/slippymap/leaflet.css"/>  `;
+      parent.innerHTML = `<link rel="stylesheet" href="/static/resources/slippymap/leaflet.css"/>  `;
       
       let document = parent.ownerDocument;
       
@@ -80,7 +80,8 @@ let slippyMapRenderer = function(config) {
       
       console.log("Centering map on " + condition.initialPosition);
     },
-    getMap: () => map
+    getMap: () => map,
+    resources: resource("slippymap", "resources", __dirname)
   }
 }
 
@@ -92,10 +93,6 @@ const DEFAULTS = {
   initialPosition: [0,0],
   initialZoom: 6,
 }
-
-// ignore __dirname in browser
-let dirname = "";
-try { dirname = __dirname; } catch(e) {}
 
 function slippyMapTask(config) {
   
@@ -123,7 +120,7 @@ function slippyMapTask(config) {
       }
     },
     controller: parameterController({parameters: config}),
-    resources: resource(dirname, "resources")
+    resources: renderer.resources
   }
 }
 

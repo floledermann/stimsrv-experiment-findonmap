@@ -131,10 +131,6 @@ const DEFAULTS = {
   initialZoom: 6,
 }
 
-// ignore __dirname in browser
-let dirname = "";
-try { dirname = __dirname; } catch(e) {}
-
 function findOnMapTask(config) {
 
   config = Object.assign({}, DEFAULTS, config);
@@ -161,7 +157,7 @@ function findOnMapTask(config) {
       }
     },
     controller: parameterController({parameters: config}),
-    resources: resource(dirname, "resources")
+    resources: monitorMap.resources
   }
 }
 
