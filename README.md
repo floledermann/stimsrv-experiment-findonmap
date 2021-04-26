@@ -4,7 +4,7 @@ This experiment uses the [stimsrv system](https://github.com/floledermann/stimsr
 
 ## Installation
 
-Clone/[download](https://github.com/floledermann/stimsrv-experiment-findonmap/archive/refs/heads/main.zip) this repository and run **install.bat** (or `npm i` on the command line) a single time to install stimsrv and required libraries.
+Clone/[download](https://github.com/floledermann/stimsrv-experiment-findonmap/archive/refs/heads/main.zip) this repository and run **install.bat** (or `npm i` on the command line) to install stimsrv and required libraries.
 
 ## Running the experiment
 
