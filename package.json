@@ -9,7 +9,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "leaflet": "1.7.1",
     "stimsrv": "0.0.1",
     "stimsrv-slippymap": "0.0.2"
   },

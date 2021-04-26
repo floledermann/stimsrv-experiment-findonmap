@@ -49,14 +49,10 @@ let findOnMapRenderer = function(config) {
   let foundItButton = null;
 
   let currentTarget = null;
-  // Leaflet reference
-  let L = null;
 
   return {
 
     initialize: function(parent, stimsrv, context) {
-
-      if (!L) L = require("leaflet");
 
       slippyMap.initialize(parent, stimsrv, context);
       let map = slippyMap.getMap();
