@@ -1,8 +1,6 @@
 
 const pause = require("stimsrv/task/pause");
-
 const sequence = require("stimsrv/controller/sequence");
-
 const findonmap = require("./findonmap-task.js");   
 const locations = require("./findonmap-locations.js");
 
@@ -15,8 +13,7 @@ pause.defaults({
   style: "max-width: 30em; text-align: justify;"
 });
 
-// stimsrv experiment definition
-module.exports = {
+let experiment = {
   
   name: "Find on map",
   description: "This experiment asks the user to find locations on a map, and tracks their map interactions",
@@ -52,6 +49,8 @@ module.exports = {
       button: "Store Results & Restart",
       buttondisplay: "control"
     }),
+    
   ]
-  
 }
+
+module.exports = experiment;
