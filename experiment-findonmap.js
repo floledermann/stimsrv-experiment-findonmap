@@ -3,9 +3,8 @@ const pause = require("stimsrv/task/pause");
 
 const sequence = require("stimsrv/controller/sequence");
 
-const findonmap = require("./src/findonmap.js");   
-
-const locations = require("./target-locations.js");
+const findonmap = require("./findonmap-task.js");   
+const locations = require("./findonmap-locations.js");
 
 const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
