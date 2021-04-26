@@ -1,4 +1,4 @@
-# stimsrv Example Experiment - Finding Places On A Map 
+# stimsrv example experiment - "find on map"
 
 This experiment uses the [stimsrv system](https://github.com/floledermann/stimsrv/) for running a simple map use experiment that asks users to find places on a map.
 
