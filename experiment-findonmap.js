@@ -3,7 +3,7 @@ const pause = require("stimsrv/task/pause");
 
 const sequence = require("stimsrv/controller/sequence");
 
-const findonmap = require("./src/task/findonmap.js");   
+const findonmap = require("./src/findonmap.js");   
 
 const locations = require("./target-locations.js");
 
