@@ -23,7 +23,7 @@ module.exports = {
   description: "This experiment asks the user to find locations on a map, and tracks their map interactions",
   
   tasks: [
-  /*
+
     pause({
       message: "Welcome to his experiment.\nPress 'Continue' when you are ready to start.",
     }),  
@@ -31,7 +31,7 @@ module.exports = {
     pause({
       message: "In this experiment, you will be asked to find ten places on an interactive map. To do so, you may move the map (by 'dragging' with the mouse or sliding with your finger), and zoom in and out (by using the mouse wheel, pinching with two fingers, or by using the provided buttons). If you feel you cannot find a place on the map, you can press the button labeled 'I cannot find the place'.\n\nPress 'Continue' when you are ready to start.",
     }),
- */
+
     findonmap({
       tiles: {
         tileURL: tileURL,
