@@ -4,14 +4,14 @@
   "author": "Florian Ledermann <florian.ledermann@tuwien.ac.at>",
   "license": "UNLICENSED",
   "description": "",
-  "main": "experiment.js",
+  "main": "experiment-findonmap.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "another-dimension": "file:../another-dimension",
     "leaflet": "1.7.1",
-    "stimsrv": "file:../stimsrv"
+    "stimsrv": "0.0.1",
+    "stimsrv-slippymap": "0.0.1"
   },
   "devDependencies": {
     "nodemon": "2.0.7"

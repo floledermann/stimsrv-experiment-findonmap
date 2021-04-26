@@ -3,9 +3,7 @@ const parameterController = require("stimsrv/controller/parameterController");
 
 const htmlButtons = require("stimsrv/ui/htmlButtons");
 
-const resource = require("stimsrv/util/resource");
-
-const slippyMapRenderer = require("./slippymap.js").renderer;
+const slippyMapRenderer = require("stimsrv-slippymap").renderer;
 
 const html = `
 <style>
