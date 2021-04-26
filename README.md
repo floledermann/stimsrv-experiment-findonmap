@@ -14,6 +14,6 @@ Open a web browser on the target device(s) and open one of the URLs shown in gre
 
 Enter one of the following client IDs in the experiment setup page:
 
-- **anyone** for running the experiment
+- **anyone** - for running the experiment
 
 For further adjustments, refer to the [stimsrv documentation](https://github.com/floledermann/stimsrv/) for information on configuring and developing experiments.
