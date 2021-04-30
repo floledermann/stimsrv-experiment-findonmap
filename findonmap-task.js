@@ -113,7 +113,8 @@ let findOnMapRenderer = function(config) {
       dialogLabel.innerHTML = "Please find: <strong>" + condition.target.name + "</strong>";
       dialog.style.display = "none";
 
-    }
+    },
+    resources: slippyMap.resources
   }
 }
 
@@ -129,29 +130,24 @@ function findOnMapTask(config) {
 
   config = Object.assign({}, DEFAULTS, config);
 
-  if (!(config.tiles?.tileURL)) {
-    console.error("Slippymap task: config.tiles.tileURL must be specified!");
-  }
-
   let renderer = findOnMapRenderer(config);
 
-  let monitorMap = slippyMapRenderer(Object.assign({},config,{interaction: false}));
+  // on monitor, disable interaction
+  let monitorMap = slippyMapRenderer(Object.assign({}, config, {interaction: false}));
 
   return {
-    name: "slippymap",
-    description: "Interactive (slippy) map",
+    name: "findonmap",
+    description: "Task: Find locations on a map",
     ui: function(context) {
       return {
         interfaces: {
           display: renderer,
-          response: null,
           monitor: renderer,
-          control: null,
         }
       }
     },
     controller: parameterController({parameters: config}),
-    resources: monitorMap.resources
+    resources: renderer.resources
   }
 }
 
