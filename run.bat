@@ -1,4 +1,4 @@
 
-call npx stimsrv experiment-findonmap.js
+call npm run experiment
 
 pause

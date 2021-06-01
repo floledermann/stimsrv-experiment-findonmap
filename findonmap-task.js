@@ -3,7 +3,7 @@ const parameterController = require("stimsrv/controller/parameterController");
 
 const htmlButtons = require("stimsrv/ui/htmlButtons");
 
-const slippyMapRenderer = require("stimsrv-slippymap").renderer;
+const slippyMapRenderer = require("stimsrv-task-slippymap").renderer;
 
 const html = `
 <style>
@@ -118,6 +118,9 @@ let findOnMapRenderer = function(config) {
       dialog.style.display = "none";
 
     },
+    event: function(type, data) {
+      slippyMap.event(type, data)
+    },
     resources: slippyMap.resources
   }
 }
@@ -136,17 +139,18 @@ function findOnMapTask(config) {
 
   let renderer = findOnMapRenderer(config);
 
-  // on monitor, disable interaction
-  let monitorMap = slippyMapRenderer(Object.assign({}, config, {interaction: false}));
-
   return {
     name: "findonmap",
     description: "Task: Find locations on a map",
     ui: function(context) {
+      
+      // on monitor, disable interaction
+      let monitorMap = slippyMapRenderer(Object.assign({}, config, {interaction: false}));
+
       return {
         interfaces: {
           display: renderer,
-          monitor: renderer,
+          monitor: monitorMap,
         }
       }
     },

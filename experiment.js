@@ -39,6 +39,7 @@ let experiment = {
       initialPosition: sequence(locations.map(l => l.initialPosition)),
       initialZoom: 15,
       target: sequence(locations),
+      synchronize: true
     }),
     
     pause({

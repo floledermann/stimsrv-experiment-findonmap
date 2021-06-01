@@ -6,11 +6,14 @@
   "description": "",
   "main": "experiment-findonmap.js",
   "scripts": {
+    "experiment": "stimsrv experiment.js",
+    "experiment-monitor": "nodemon --exec \"npx\" stimsrv experiment.js",
+    "experiment-debug": "node --inspect-brk node_modules/stimsrv experiment.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "stimsrv": "0.0.1",
-    "stimsrv-slippymap": "0.0.2"
+    "stimsrv": "0.0.6",
+    "stimsrv-task-slippymap": "0.0.6"
   },
   "devDependencies": {
     "nodemon": "2.0.7"
