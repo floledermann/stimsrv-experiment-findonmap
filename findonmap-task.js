@@ -7,6 +7,10 @@ const slippyMapRenderer = require("stimsrv-slippymap").renderer;
 
 const html = `
 <style>
+.slippymap {
+  z-index: 1;
+}
+
 .modal {
   display: none;
   position: absolute;
@@ -14,7 +18,7 @@ const html = `
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 500;
+  z-index: 2;
   background-color: rgba(255,255,255,1.0);
   color: #444444;
   padding-top: 40vh;
@@ -25,7 +29,7 @@ const html = `
   display: none;
   position: absolute;
   top: 20px;
-  z-index: 500;
+  z-index: 3;
   background-color: rgba(255,255,255,0.9);
   padding: 3px 90px;
   border: 1px solid rgba(0,0,0,0.15);
