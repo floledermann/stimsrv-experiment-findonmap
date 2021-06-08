@@ -12,8 +12,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "stimsrv": "0.0.6",
-    "stimsrv-task-slippymap": "0.0.6"
+    "stimsrv": "0.0.7",
+    "stimsrv-task-slippymap": "0.0.7"
   },
   "devDependencies": {
     "nodemon": "2.0.7"
